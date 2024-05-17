@@ -4,6 +4,7 @@ Based on https://isocpp.org/blog/2014/06/stroustrup-lists
 Insert a sequence of random integers into a sorted sequence, then remove those elements one by one as determined by a random sequence of positions.
 
 What is needed?
+
     - For different types of sorted sequences do the following:
         - Build a sequence of random integers of a given size
         - Build a sequence of random positions - this is tricky because with each position, all positions after it need to be subtracted by one in order to avoid removal of   nonexisting elements.
