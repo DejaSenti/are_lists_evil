@@ -9,7 +9,9 @@
 #include "sorted_tree.hpp"
 #include "sorted_vector.hpp"
 
+const int NUM_SEQUENCES = 5;
 const int TEST_SIZE = 10;
+
 const std::array<int, TEST_SIZE> test_nums = { 10, 5, 41, 90, 10, 745, 30, 6201, 6, 897 };
 const std::array<std::vector<int>, 3> test_inds = 
 {
@@ -18,13 +20,7 @@ const std::array<std::vector<int>, 3> test_inds =
     std::vector<int>{ 4, 0, 2, 2, 0, 0 }
 };
 
-typedef struct sequence
-{
-    ISortedSequence* sequence;
-    std::string name;
-} sequence_t;
-
-static void printVector(std::string label, std::vector<int>& vec)
+static void printVector(std::string label, const std::vector<int>& vec)
 {
     std::cout << label + ":" << std::endl;
 
@@ -43,19 +39,19 @@ static void printVector(std::string label, std::vector<int>& vec)
 
 int main(void)
 {
-    SortedArray<TEST_SIZE> arr;
-    SortedDList dlist;
-    SortedSList slist;
-    SortedTree tree;
-    SortedVector vec;
+    SortedArray<TEST_SIZE> arr("Array");
+    SortedDList dlist("Doubly-Linked List");
+    SortedSList slist("Singly-Linked List");
+    SortedTree tree("Tree");
+    SortedVector vec("Vector");
 
-    std::vector<sequence_t> sequences = 
-    { 
-        { &arr, "Array" },
-        { &dlist, "Doubly-Linked List" },
-        { &slist, "Singly-Linked List" },
-        { &tree, "Tree" },
-        { &vec, "Vector" }
+    ISortedSequence* sequences[NUM_SEQUENCES] = 
+    {
+        &arr,
+        &dlist,
+        &slist,
+        &tree,
+        &vec
     };
 
     std::vector<int> test_vec;
@@ -67,12 +63,12 @@ int main(void)
 
     for (auto sequence : sequences)
     {
-        sequence.sequence->Insert(test_vec);
-        if (!sequence.sequence->IsSorted())
+        sequence->Insert(test_vec);
+        if (!sequence->IsSorted())
         {
-            std::cout << "Failed! " + sequence.name + " is not sorted after insertion!" << std::endl;
+            std::cout << "Failed! " + sequence->GetName() + " is not sorted after insertion!" << std::endl;
             printVector("Expected", sorted_test_vec);
-            printVector("Result", sequence.sequence->GetContents());
+            printVector("Result", sequence->GetContents());
             is_passed = false;
         }
     }
@@ -86,14 +82,14 @@ int main(void)
         
         for (auto sequence : sequences)
         {
-            sequence.sequence->Remove(test_remove);
-            std::vector<int> rem_result = sequence.sequence->GetContents();
+            sequence->Remove(test_remove);
+            std::vector<int> rem_result = sequence->GetContents();
 
-            if (rem_result != test_vec)
+            if (rem_result != sorted_test_vec)
             {
-                std::cout << "Failed! " + sequence.name + " doesn't have the correct contents after removal!" << std::endl;
+                std::cout << "Failed! " + sequence->GetName() + " doesn't have the correct contents after removal!" << std::endl;
                 printVector("Expected", sorted_test_vec);
-                printVector("Result", sequence.sequence->GetContents());
+                printVector("Result", sequence->GetContents());
                 is_passed = false;
             }
         }
