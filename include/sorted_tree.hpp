@@ -13,5 +13,5 @@ public:
     bool IsSorted(void)const override;
     std::vector<int> GetContents(void) const override;
 private:
-    std::set<int> m_tree;
+    std::multiset<int> m_tree;
 };
