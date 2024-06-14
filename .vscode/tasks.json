@@ -47,9 +47,9 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
-                "src/*",
+                "src/*.cpp",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
                 "-Iinclude"
             ],
             "options": {

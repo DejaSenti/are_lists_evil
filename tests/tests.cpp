@@ -54,16 +54,19 @@ int main(void)
         &vec
     };
 
-    std::vector<int> test_vec;
-    test_vec.assign(test_nums.begin(), test_nums.end());
-    std::vector<int> sorted_test_vec = test_vec;
+    std::vector<int> sorted_test_vec;
+    sorted_test_vec.assign(test_nums.begin(), test_nums.end());
     std::sort(sorted_test_vec.begin(), sorted_test_vec.end());
 
     bool is_passed = true;
 
     for (auto sequence : sequences)
     {
-        sequence->Insert(test_vec);
+        for (auto num : test_nums)
+        {
+            sequence->Insert(num);
+        }
+
         if (!sequence->IsSorted())
         {
             std::cout << "Failed! " + sequence->GetName() + " is not sorted after insertion!" << std::endl;
@@ -71,25 +74,29 @@ int main(void)
             printVector("Result", sequence->GetContents());
             is_passed = false;
         }
-    }
-
-    for (auto test_remove : test_inds)
-    {
-        for (auto num : test_remove)
-        {
-            sorted_test_vec.erase(sorted_test_vec.begin() + num);
-        }
         
-        for (auto sequence : sequences)
+        std::vector<int> sorted_vec;
+        sorted_vec.assign(sorted_test_vec.begin(), sorted_test_vec.end());
+
+        for (auto test_remove : test_inds)
         {
-            sequence->Remove(test_remove);
+            std::vector<int> before_rem = sequence->GetContents();
+            
+            for (auto num : test_remove)
+            {
+                sorted_vec.erase(sorted_vec.begin() + num);
+                sequence->Remove(num);
+            }
+
             std::vector<int> rem_result = sequence->GetContents();
 
-            if (rem_result != sorted_test_vec)
+            if (rem_result != sorted_vec)
             {
                 std::cout << "Failed! " + sequence->GetName() + " doesn't have the correct contents after removal!" << std::endl;
-                printVector("Expected", sorted_test_vec);
-                printVector("Result", sequence->GetContents());
+                printVector("Before remove", before_rem);
+                printVector("Indices to remove", test_remove);
+                printVector("Expected", sorted_vec);
+                printVector("Result", rem_result);
                 is_passed = false;
             }
         }

@@ -2,21 +2,15 @@
 
 #include "sorted_dlist.hpp"
 
-void SortedDList::Insert(std::vector<int> sequence)
+void SortedDList::Insert(int num)
 {
-    for (auto num : sequence)
-    {
-        auto const position = std::lower_bound(m_dlist.begin(), m_dlist.end(), num);
-        m_dlist.insert(position, num);
-    }
+    auto const position = std::lower_bound(m_dlist.begin(), m_dlist.end(), num);
+    m_dlist.insert(position, num);
 }
 
-void SortedDList::Remove(std::vector<int> indices)
+void SortedDList::Remove(int index)
 {
-    for (auto num : indices)
-    {
-        m_dlist.erase(std::next(m_dlist.begin(), num));
-    }
+    m_dlist.erase(std::next(m_dlist.begin(), index));
 }
 
 bool SortedDList::IsSorted(void) const

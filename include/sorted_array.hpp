@@ -9,61 +9,45 @@ template<std::size_t N>
 class SortedArray : public ISortedSequence
 {
 public:
-    SortedArray(const std::string& name) : ISortedSequence(name) {}
+    SortedArray(const std::string& name) : ISortedSequence(name), m_size(0) {}
 
-    void Insert(std::vector<int> sequence) override;
-    void Remove(std::vector<int> indices) override;
+    void Insert(int num) override;
+    void Remove(int index) override;
     bool IsSorted(void) const override;
     std::vector<int> GetContents(void) const override;
+
 private:
     std::array<int, N> m_arr;
     int m_size;
 };
 
 template<std::size_t N>
-void sorted_insert(std::array<int, N>& arr, int num, int current_size)
+void 
+SortedArray<N>::Insert(int num)
 {
-    arr[current_size] = num;
+    m_arr[m_size] = num;
 
-    int i = current_size;
+    int i = m_size;
 
-    while (i > 0 && arr[i] < arr[i - 1])
+    while (i > 0 && m_arr[i] < m_arr[i - 1])
     {
-        std::swap(arr[i], arr[i - 1]);
+        std::swap(m_arr[i], m_arr[i - 1]);
         i--;
     }
-}
 
-template<std::size_t N>
-void remove_from_array(std::array<int, N>& arr, int ind)
-{
-    for (int i = ind; i < arr.size() - 1; i++)
-    {
-        std::swap(arr[i], arr[i + 1]);
-    }
+    m_size++;
 }
 
 template<std::size_t N>
 void 
-SortedArray<N>::Insert(std::vector<int> sequence)
+SortedArray<N>::Remove(int index)
 {
-    m_size = 0;
-    for (int i = 0;  i < m_arr.size(); i++)
+    for (int i = index; i < m_size - 1; i++)
     {
-        sorted_insert(m_arr, sequence[i], i);
-        m_size++;
+        std::swap(m_arr[i], m_arr[i + 1]);
     }
-}
 
-template<std::size_t N>
-void 
-SortedArray<N>::Remove(std::vector<int> indices)
-{
-    for(auto ind : indices)
-    {
-        remove_from_array(m_arr, ind);
-        m_size--;
-    }
+    m_size--;
 }
 
 template<std::size_t N>

@@ -2,21 +2,15 @@
 
 #include "sorted_vector.hpp"
 
-void SortedVector::Insert(std::vector<int> sequence)
+void SortedVector::Insert(int num)
 {
-    for (auto num : sequence)
-    {
-        auto const position = std::lower_bound(m_vec.begin(), m_vec.end(), num);
-        m_vec.insert(position, num);
-    }
+    auto const position = std::lower_bound(m_vec.begin(), m_vec.end(), num);
+    m_vec.insert(position, num);
 }
 
-void SortedVector::Remove(std::vector<int> indices)
+void SortedVector::Remove(int index)
 {
-    for (auto num : indices)
-    {
-        m_vec.erase(m_vec.begin() + num);
-    }
+    m_vec.erase(m_vec.begin() + index);
 }
 
 bool SortedVector::IsSorted(void) const

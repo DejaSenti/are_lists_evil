@@ -2,30 +2,17 @@
 
 #include "sorted_tree.hpp"
 
-void SortedTree::Insert(std::vector<int> sequence)
+void SortedTree::Insert(int num)
 {
-    for (auto num : sequence)
-    {
-        m_tree.insert(num);
-    }
+    m_tree.insert(num);
 }
 
-// careful, Icarus, especially when using huge vectors here
-void SortedTree::Remove(std::vector<int> indices)
+void SortedTree::Remove(int index)
 {
-    if (indices.size() == 0)
-    {
-        return;
-    }
-    
     auto iter = m_tree.begin();
-    std::advance(iter, indices[0]);
+    std::advance(iter, index);
 
     m_tree.erase(iter);
-
-    indices.erase(indices.begin());
-
-    Remove(indices);
 }
 
 bool SortedTree::IsSorted(void) const

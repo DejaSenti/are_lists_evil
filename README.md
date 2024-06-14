@@ -7,7 +7,7 @@ What is needed?
 
     - For different types of sorted sequences do the following:
         - Build a sequence of random integers of a given size
-        - Build a sequence of random positions - this is tricky because with each position, all positions after it need to be subtracted by one in order to avoid removal of   nonexisting elements.
+        - Build a sequence of random positions - this is tricky because with each position, all positions after it need to be subtracted by one in order to avoid removal of nonexisting elements.
         - Start timing
         - Insert the random integers into the sorted sequence
         - Remove the integers according to the list of positions

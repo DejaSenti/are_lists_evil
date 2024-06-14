@@ -2,29 +2,23 @@
 
 #include "sorted_slist.hpp"
 
-void SortedSList::Insert(std::vector<int> sequence)
+void SortedSList::Insert(int num)
 {
-    for (auto num : sequence)
-    {        
-        auto prev = m_slist.before_begin();
-        auto curr = m_slist.begin();
+    auto prev = m_slist.before_begin();
+    auto curr = m_slist.begin();
 
-        while (curr != m_slist.end() && *curr < num) 
-        {
-            prev = curr;
-            ++curr;
-        }
-
-        m_slist.insert_after(prev, num);
+    while (curr != m_slist.end() && *curr < num) 
+    {
+        prev = curr;
+        ++curr;
     }
+
+    m_slist.insert_after(prev, num);
 }
 
-void SortedSList::Remove(std::vector<int> indices)
+void SortedSList::Remove(int index)
 {
-    for (auto num : indices)
-    {
-        m_slist.erase_after(std::next(m_slist.before_begin(), num));
-    }
+    m_slist.erase_after(std::next(m_slist.before_begin(), index));
 }
 
 bool SortedSList::IsSorted(void) const
